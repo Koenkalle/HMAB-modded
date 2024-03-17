@@ -2,10 +2,10 @@ import logging
 import os
 
 # ===============================  Program Related  ===============================
-DB_CONFIG = '\config\db.conf'
-EXPERIMENT_FOLDER = '\experiments'
-WORKLOADS_FOLDER = '\\resources\\workloads'
-EXPERIMENT_CONFIG = '\config\exp.conf'
+DB_CONFIG = '/config/db.conf'
+EXPERIMENT_FOLDER = '/experiments'
+WORKLOADS_FOLDER = '/resources/workloads'
+EXPERIMENT_CONFIG = '/config/exp.conf'
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 LOGGING_LEVEL = logging.INFO
 LOG_XML = False
@@ -15,7 +15,7 @@ TABLE_SCAN_TIME_LENGTH = 1000
 
 # ===============================  Database / Workload  ===============================
 SCHEMA_NAME = 'dbo'
-SERVER_RESTART = True
+SERVER_RESTART = False
 RESTORE_BACKUP = False
 
 # ===============================  Arm Generation Heuristics  ===============================

@@ -28,6 +28,7 @@ def gen_arms_from_predicates_v2(connection, query_obj):
     payloads = query_obj.payload
     query_id = query_obj.id
     tables = sql_helper.get_tables(connection)
+    print(tables)
     for table_name, table_predicates in predicates.items():
         table = tables[table_name]
         includes = []

@@ -21,8 +21,10 @@ def get_sql_connection():
 
     if db_type == 'MSSQL':
         driver = db_config[db_type]['driver']
+        user = db_config[db_type]['user']
+        password = db_config[db_type]['password']
         return pyodbc.connect(
-            r'Driver=' + driver + ';Server=' + server + ';Database=' + database + ';Trusted_Connection=yes;')
+            r'Driver=' + driver + ';Server=' + server + ';Database=' + database +';UID='+user+';PWD='+password+';TrustServerCertificate=yes;')
     elif db_type == 'PG':
         user = db_config[db_type]['user']
         password = db_config[db_type]['password']
@@ -43,10 +45,12 @@ def get_master_sql_connection():
     server = db_config[db_type]['server']
     database = 'master'
     driver = db_config[db_type]['driver']
+    user = db_config[db_type]['user']
+    password = db_config[db_type]['password']
 
     return pyodbc.connect(
-        r'Driver=' + driver + ';Server=' + server + ';Database=' + database + ';Trusted_Connection=yes;',autocommit=True)
-
+            r'Driver=' + driver + ';Server=' + server + ';Database=' + database +';UID='+user+';PWD='+password+';TrustServerCertificate=yes;')
+   
 
 def close_sql_connection(connection):
     """

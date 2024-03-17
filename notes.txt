@@ -1,0 +1,21 @@
+Pull mssql container with  sudo docker pull mopt/mssql-tools/bin/scr.microsoft.com/mssql/server:2022-latest
+
+Run it with sudo docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=L0ngpassword!" \
+-it --mount src="~/Reps/TPC-H-Dataset-Generator-MS-SQL-Server/schema",target=/mnt,type=bind \
+   -p 1433:1433 --name sql1 --hostname sql1 \
+   -d \
+   mcr.microsoft.com/mssql/server:2022-latest
+
+create schema files with https://github.com/nghiahhnguyen/TPC-H-Dataset-Generator-MS-SQL-Server
+
+modify bulk load commands, move .tbl files into mounted folder aswell
+
+Setup odbc drivers with script from here https://stackoverflow.com/questions/43417886/pyodbc-error-while-running-application-within-a-container
+
+Fix paths at multiple locations of HMAB framework
+
+Change a lot of constants
+
+Connect with sudo docker exec -it sql1 "bash"
+
+login as sa with /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "L0ngpassword!"

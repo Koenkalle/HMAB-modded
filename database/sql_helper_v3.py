@@ -17,8 +17,8 @@ db_config.read(constants.ROOT_DIR + constants.DB_CONFIG)
 db_type = db_config['SYSTEM']['db_type']
 database = db_config[db_type]['database']
 
-table_scan_times_hyp = copy.deepcopy(constants.TABLE_SCAN_TIMES[database[:-4]])
-table_scan_times = copy.deepcopy(constants.TABLE_SCAN_TIMES[database[:-4]])
+table_scan_times_hyp = copy.deepcopy(constants.TABLE_SCAN_TIMES[database])
+table_scan_times = copy.deepcopy(constants.TABLE_SCAN_TIMES[database])
 
 tables_global = None
 pk_columns_dict = {}
@@ -481,16 +481,23 @@ def hyp_execute_query_v2(connection, query, file, print_exc=True):
         cursor.execute("DBCC DROPCLEANBUFFERS;")
         cursor.execute("SET STATISTICS XML ON")
         cursor.execute("SET AUTOPILOT ON")
+        #print("1")
+        #print(query)
         start_time = datetime.datetime.now()
         cursor.execute(query)
+        #print("1.1")
         file.write(query + '\n')
+        #print("1.2")
         end_time = datetime.datetime.now()
+        #print("2")
         stat_xml = cursor.fetchone()[0]
         cursor.execute("SET AUTOPILOT OFF")
         cursor.execute("SET STATISTICS XML OFF")
         connection.commit()
+        #print("3")
         return QueryPlan.get_plan(stat_xml), (end_time - start_time).total_seconds()
     except Exception as e:
+        #print(query)
         return None
 
 
@@ -834,7 +841,7 @@ def remove_all_non_clustered(connection, schema_name):
 
 
 def get_table_scan_times_structure():
-    query_table_scan_times = copy.deepcopy(constants.TABLE_SCAN_TIMES[database[:-4]])
+    query_table_scan_times = copy.deepcopy(constants.TABLE_SCAN_TIMES[database])
     return query_table_scan_times
 
 
