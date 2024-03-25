@@ -7,7 +7,8 @@ import seaborn as sns
 from pandas import DataFrame
 import xml.etree.ElementTree as ET
 from io import StringIO
-
+import matplotlib.pyplot as plt
+import tikzplotlib
 import constants
 
 
@@ -74,19 +75,37 @@ def plot_exp_report(exp_id, exp_report_list, measurement_names, log_y=False):
         final_df = DataFrame()
         for exp_report in exp_report_list:
             df = exp_report.data
+            exp_report.component_id = exp_report.component_id.replace("_","")
             df[constants.DF_COL_COMP_ID] = exp_report.component_id
             final_df = pd.concat([final_df, df])
             comps.append(exp_report.component_id)
 
-        final_df = final_df[final_df[constants.DF_COL_MEASURE_NAME] == measurement_name]
+        final_df = final_df[final_df[constants.DF_COL_MEASURE_NAME] == measurement_name][[constants.DF_COL_BATCH,constants.DF_COL_MEASURE_VALUE,constants.DF_COL_COMP_ID]]
         # Error style = 'band' / 'bars'
-        sns_plot = sns.relplot(x=constants.DF_COL_BATCH, y=constants.DF_COL_MEASURE_VALUE, hue=constants.DF_COL_COMP_ID,
-                               kind="line", ci="sd", data=final_df, err_style="band")
-        if log_y:
-            sns_plot.set(yscale="log")
-        plot_title = measurement_name + " Comparison"
-        sns_plot.set(xlabel=constants.DF_COL_BATCH, ylabel=measurement_name)
-        sns_plot.savefig(get_experiment_folder_path(exp_id) + plot_title + '.png')
+        print(final_df.dtypes)
+        print(constants.DF_COL_BATCH)
+        print(constants.DF_COL_MEASURE_VALUE)
+        print(constants.DF_COL_COMP_ID)
+
+        plot_title = measurement_name+"Comparison"
+        plt.figure()
+        for id in final_df[constants.DF_COL_COMP_ID].unique():
+            mask = final_df[final_df[constants.DF_COL_COMP_ID] == id][[constants.DF_COL_BATCH,constants.DF_COL_MEASURE_VALUE]]
+            plt.plot(mask[constants.DF_COL_BATCH].to_numpy(), mask[constants.DF_COL_MEASURE_VALUE].to_numpy(), label=id)
+        plt.title(plot_title)
+        plt.xlabel("Round t")
+        plt.ylabel("time (s)")
+        plt.legend()
+        plt.savefig(plot_title.replace(" ","")+".png")
+
+        tikzplotlib.save(plot_title.replace(" ","")+".tex")
+        #sns_plot = sns.relplot(x=constants.DF_COL_BATCH, y=constants.DF_COL_MEASURE_VALUE, hue=constants.DF_COL_COMP_ID,
+        #                       kind="line", ci="sd", data=final_df, err_style="band")
+        #if log_y:
+        #    sns_plot.set(yscale="log")
+        #plot_title = measurement_name + " Comparison"
+        #sns_plot.set(xlabel=constants.DF_COL_BATCH, ylabel=measurement_name)
+        #sns_plot.savefig(get_experiment_folder_path(exp_id) + plot_title + '.png')
 
 
 def create_comparison_tables(exp_id, exp_report_list):

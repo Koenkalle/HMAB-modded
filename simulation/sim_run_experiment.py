@@ -13,7 +13,7 @@ from database.dta_test_run_v2 import DTARunner
 from shared import configs_v2 as configs, helper_v2 as helper
 
 # Define Experiment ID list that we need to run
-exp_id_list = ["tpc_h_static_10_MAB"]
+exp_id_list = ["tpc_h_selfgen_1"]
 
 # Comparing components
 OPTIMAL = constants.COMPONENT_OPTIMAL in configs.components
@@ -25,8 +25,8 @@ MAB = constants.COMPONENT_MAB in configs.components
 NO_INDEX = constants.COMPONENT_NO_INDEX in configs.components
 
 # Generate form saved reports
-FROM_FILE = False
-SEPARATE_EXPERIMENTS = True
+FROM_FILE = True
+SEPARATE_EXPERIMENTS = False
 PLOT_LOG_Y = False
 PLOT_MEASURE = (constants.MEASURE_BATCH_TIME, constants.MEASURE_QUERY_EXECUTION_COST,
                 constants.MEASURE_INDEX_CREATION_COST, constants.MEASURE_TRANSACTIONAL_EXECUTION_COST,

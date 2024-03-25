@@ -100,8 +100,8 @@ class Simulator(BaseSimulator):
         arm_selection_count = {}
         chosen_arms_last_round = {}
         next_workload_shift = 0
-        queries_start = configs.queries_start_list[next_workload_shift]
-        queries_end = configs.queries_end_list[next_workload_shift]
+        queries_start = 0 #configs.queries_start_list[next_workload_shift]
+        queries_end = configs.queries_per_round#configs.queries_end_list[next_workload_shift]
         query_obj_additions = []
         total_time = 0.0
 
@@ -112,11 +112,14 @@ class Simulator(BaseSimulator):
             # used to demo the dynamic query flow. We read the queries from the start and move the window each round
 
             # check if workload shift is required
-            if t == configs.workload_shifts[next_workload_shift]:
-                queries_start = configs.queries_start_list[next_workload_shift]
-                queries_end = configs.queries_end_list[next_workload_shift]
-                if len(configs.workload_shifts) > next_workload_shift + 1:
-                    next_workload_shift += 1
+            #if t == configs.workload_shifts[next_workload_shift]:
+            #    queries_start = configs.queries_start_list[next_workload_shift]
+            #    queries_end = configs.queries_end_list[next_workload_shift]
+            #    if len(configs.workload_shifts) > next_workload_shift + 1:
+            #        next_workload_shift += 1
+
+            queries_start = queries_end
+            queries_end += configs.queries_per_round
 
             # New set of queries in this batch, required for query execution
             queries_current_batch = self.queries[queries_start:queries_end]
