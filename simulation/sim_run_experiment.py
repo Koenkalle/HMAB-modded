@@ -25,7 +25,7 @@ MAB = constants.COMPONENT_MAB in configs.components
 NO_INDEX = constants.COMPONENT_NO_INDEX in configs.components
 
 # Generate form saved reports
-FROM_FILE = True
+FROM_FILE = False
 SEPARATE_EXPERIMENTS = False
 PLOT_LOG_Y = False
 PLOT_MEASURE = (constants.MEASURE_BATCH_TIME, constants.MEASURE_QUERY_EXECUTION_COST,
