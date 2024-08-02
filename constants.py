@@ -63,6 +63,8 @@ MEASURE_TRANSACTIONAL_EXECUTION_COST = "Transactional Execution Cost"
 MEASURE_MEMORY_COST = "Memory Cost"
 MEASURE_BATCH_TIME = "Batch Time"
 MEASURE_HYP_BATCH_TIME = "Hyp Batch Time"
+MEASURE_INDEX_USAGE = "Query Execution Index Usage"
+MEASURE_INDEX_USAGE_ROWS = "Query Execution Index Usage Rows"
 
 COMPONENT_WARM_UP = "WARM_UP"
 COMPONENT_MAB = "MAB"

@@ -327,7 +327,7 @@ class Simulator(BaseSimulator):
                     del super_chosen_arms[a_id]
 
             result = sql_helper.create_query_v7(self.connection, constants.SCHEMA_NAME, added_arms, deleted_arms, query_obj_list_current)
-            execution_cost, creation_costs, query_plans, cost_analytical, cost_transactional = result
+            execution_cost, creation_costs, query_plans, cost_analytical, cost_transactional, index_use, index_use_rows = result
             arm_rewards = bandit_helper.calculate_reward(creation_costs, query_obj_list_current, query_plans)
             if constants.LOG_XML:
                 helper.log_query_xmls(configs.experiment_id, query_obj_list_current, query_plans, t, constants.COMPONENT_MAB)
@@ -367,7 +367,9 @@ class Simulator(BaseSimulator):
             results.append([actual_round_number, constants.MEASURE_MEMORY_COST, current_config_size])
             results.append([actual_round_number, constants.MEASURE_ANALYTICAL_EXECUTION_COST, cost_analytical])
             results.append([actual_round_number, constants.MEASURE_TRANSACTIONAL_EXECUTION_COST, cost_transactional])
-
+            results.append([actual_round_number, constants.MEASURE_INDEX_USAGE, index_use])
+            results.append([actual_round_number, constants.MEASURE_INDEX_USAGE_ROWS, index_use_rows])
+            
             total_time += total_round_time
 
             print(f"current total {t}: ", total_time)

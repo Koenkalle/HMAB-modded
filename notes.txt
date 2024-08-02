@@ -19,3 +19,20 @@ Change a lot of constants
 Connect with sudo docker exec -it sql1 "bash"
 
 login as sa with /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "L0ngpassword!"
+
+
+
+
+Run with terminal disconnect: nohup python3 PATH_TO_FILE &
+
+
+
+OH no, did you corrupt the database? Reset it manually like this:
+
+ mssql-cli -S localhost -U SA -P SletIkkePalle1
+
+ DROP DATABASE tpc
+ CREATE DATABASE tpc
+
+Reload the generated data:
+mssql-cli -S localhost -U SA -P SletIkkePalle1 -d tpc -i dss.ddl & mssql-cli -S localhost -U SA -P SletIkkePalle1 -d tpc -i dss2.ri

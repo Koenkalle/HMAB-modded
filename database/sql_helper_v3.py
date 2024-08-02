@@ -109,9 +109,25 @@ def create_query_v7(connection, schema_name, arm_list_to_add, arm_list_to_delete
     query_times = {}
     query_counts = {}
     is_analytical = {}
+    total_index_use = 0
+    total_table_use = 0
+    total_index_use_rows = 0
+    total_table_use_rows = 0
     for query in queries:
         query_plan = execute_query_v2(connection, query.get_query_string())
         if query_plan:
+            #print(query_plan.clustered_index_usages.keys())
+            #print(query_plan.clustered_index_usages.values())
+            #print(query_plan.clustered_view_usages.keys())
+            #print(query_plan.non_clustered_view_usages.keys())
+            for _id, scan in query_plan.clustered_index_usages.items():
+                #print(scan)
+                #print(scan.act_rows_read)
+                total_table_use += scan.act_elapsed_sum#scan[constants.COST_TYPE_CURRENT_EXECUTION]
+                total_table_use_rows += scan.act_rows_read#scan[4]   
+            for _id, index_scan in query_plan.non_clustered_index_usages.items():
+                total_index_use += index_scan.act_elapsed_sum#[constants.COST_TYPE_CURRENT_EXECUTION]
+                total_index_use_rows += index_scan.act_rows_read#[4]
             cost = query_plan[constants.COST_TYPE_CURRENT_EXECUTION]
             if query.id in query_times:
                 query_times[query.id] += cost
@@ -137,7 +153,7 @@ def create_query_v7(connection, schema_name, arm_list_to_add, arm_list_to_delete
     logging.info(f"Time taken for analytical queries: {execute_cost_analytical}")
     logging.info(f"Time taken for transactional queries: {execute_cost_transactional}")
 
-    return execute_cost, creation_cost, query_plans, execute_cost_analytical, execute_cost_transactional
+    return execute_cost, creation_cost, query_plans, execute_cost_analytical, execute_cost_transactional, total_index_use/(total_table_use+total_index_use), total_index_use_rows/(total_table_use_rows+total_index_use_rows)
 
 
 def bulk_create(connection, schema_name, bandit_arm_list):
