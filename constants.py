@@ -83,7 +83,7 @@ TA_WORKLOAD_TYPE_SCHEDULE = 'schedule'
 
 # ===============================  Other  ===============================
 TABLE_SCAN_TIMES = {"SSB": {"customer": [], "dwdate": [], "lineorder": [], "part": [], "supplier": []},
-                    "tpc": {"LINEITEM": [], "CUSTOMER": [], "NATION": [], "ORDERS": [], "PART": [], "PARTSUPP": [],
+                    "TPCH": {"LINEITEM": [], "CUSTOMER": [], "NATION": [], "ORDERS": [], "PART": [], "PARTSUPP": [],
                              "REGION": [], "SUPPLIER": []},
                     "TPCHSKEW": {"LINEITEM": [], "CUSTOMER": [], "NATION": [], "ORDERS": [], "PART": [], "PARTSUPP": [],
                                  "REGION": [], "SUPPLIER": []},

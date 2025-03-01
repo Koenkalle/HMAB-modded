@@ -67,7 +67,7 @@ class Simulator(BaseSimulator):
         columns = {}
         column_counts = {}
 
-        configs.max_memory -= int(sql_helper.get_current_pds_size(self.connection))
+        #configs.max_memory -= int(sql_helper.get_current_pds_size(self.connection))
         # Creating bandits for tables
         cluster_id = 1
         for table_name in table_list:
